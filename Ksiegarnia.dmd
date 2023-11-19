@@ -1,0 +1,8 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="Ksiegarnia" id="E6417AD7-DC99-D1DE-A356-32A0A778541F" version="3.5">
+<createdBy>baldd</createdBy>
+<createdTime>2023-11-09 11:06:28 UTC</createdTime>
+<ownerDesignName>Ksiegarnia</ownerDesignName>
+<capitalNames>false</capitalNames>
+<designId>E6417AD7-DC99-D1DE-A356-32A0A778541F</designId>
+</OSDM_Design>

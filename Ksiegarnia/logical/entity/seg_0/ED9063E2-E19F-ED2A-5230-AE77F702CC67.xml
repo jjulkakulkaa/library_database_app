@@ -1,0 +1,29 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="ED9063E2-E19F-ED2A-5230-AE77F702CC67" name="Promocja">
+<createdBy>baldd</createdBy>
+<createdTime>2023-11-09 11:23:59 UTC</createdTime>
+<ownerDesignName>Ksiegarnia</ownerDesignName>
+<engineerTo>
+<item key="77349546-AD6C-3775-E2F0-CD9AF033E1A2" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="Wartość" id="908EF991-97F1-E724-0362-EF07DCAD7B9A">
+<createdBy>baldd</createdBy>
+<createdTime>2023-11-09 11:24:11 UTC</createdTime>
+<ownerDesignName>Ksiegarnia</ownerDesignName>
+<engineerTo>
+<item key="77349546-AD6C-3775-E2F0-CD9AF033E1A2" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+</Entity>

@@ -1,0 +1,111 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="725F1743-7283-5C87-F2A5-29D0FA9824B2" name="Zamówienie">
+<createdBy>baldd</createdBy>
+<createdTime>2023-11-09 11:19:36 UTC</createdTime>
+<ownerDesignName>Ksiegarnia</ownerDesignName>
+<engineerTo>
+<item key="77349546-AD6C-3775-E2F0-CD9AF033E1A2" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="Numer" id="6BB1A8CA-3BA1-3FB4-6FC9-03B8924C36BA">
+<createdBy>baldd</createdBy>
+<createdTime>2023-11-09 11:22:35 UTC</createdTime>
+<ownerDesignName>Ksiegarnia</ownerDesignName>
+<engineerTo>
+<item key="77349546-AD6C-3775-E2F0-CD9AF033E1A2" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Data_zamówienia" id="D2AD5E1E-88CE-0C55-5A64-2334308B3B2C">
+<createdBy>baldd</createdBy>
+<createdTime>2023-11-09 11:20:00 UTC</createdTime>
+<ownerDesignName>Ksiegarnia</ownerDesignName>
+<engineerTo>
+<item key="77349546-AD6C-3775-E2F0-CD9AF033E1A2" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Wartość zamówienia" id="DC669C83-C07B-8C32-C94C-B032300C02F6">
+<createdBy>baldd</createdBy>
+<createdTime>2023-11-09 11:20:07 UTC</createdTime>
+<ownerDesignName>Ksiegarnia</ownerDesignName>
+<engineerTo>
+<item key="77349546-AD6C-3775-E2F0-CD9AF033E1A2" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Status" id="09503F18-E04F-04AC-D13B-FCDE349F8CEF">
+<createdBy>baldd</createdBy>
+<createdTime>2023-11-09 11:20:15 UTC</createdTime>
+<ownerDesignName>Ksiegarnia</ownerDesignName>
+<engineerTo>
+<item key="77349546-AD6C-3775-E2F0-CD9AF033E1A2" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Pesel" id="7D7CADB5-110C-EF3A-349D-8961B404C877">
+<createdBy>baldd</createdBy>
+<createdTime>2023-11-09 11:48:36 UTC</createdTime>
+<generatorID>13B765B7-B944-45B3-9982-025ABC8AF6D1</generatorID>
+<ownerDesignName>Ksiegarnia</ownerDesignName>
+<engineerTo>
+<item key="77349546-AD6C-3775-E2F0-CD9AF033E1A2" value="true"/>
+</engineerTo>
+<referedAttribute>D0631A45-9DCA-AC58-DFB1-93D2BC6E9710</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Pesel1" id="9F400A9E-8C4B-572A-EF75-8A8859922D1C">
+<createdBy>jarom</createdBy>
+<createdTime>2023-11-09 19:44:41 UTC</createdTime>
+<generatorID>3C80891B-E982-8596-B3BE-D2AA08ED334E</generatorID>
+<ownerDesignName>Ksiegarnia</ownerDesignName>
+<engineerTo>
+<item key="77349546-AD6C-3775-E2F0-CD9AF033E1A2" value="true"/>
+</engineerTo>
+<referedAttribute>53133E2D-8666-47A8-70DE-4A3B3354E022</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Id_książki" id="B0EE326D-372C-99C5-CC1F-A30EF6786ECB">
+<createdBy>jarom</createdBy>
+<createdTime>2023-11-09 19:45:25 UTC</createdTime>
+<generatorID>E6AA9056-41BE-DB03-846C-370E368C5269</generatorID>
+<ownerDesignName>Ksiegarnia</ownerDesignName>
+<engineerTo>
+<item key="77349546-AD6C-3775-E2F0-CD9AF033E1A2" value="true"/>
+</engineerTo>
+<referedAttribute>5DDAF217-7BCF-A1C4-5018-599B8BA4B619</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="D8292A7D-FA39-4A0F-C9DE-59C6548648C2" name="Zamówienie PK">
+<createdBy>baldd</createdBy>
+<createdTime>2023-11-09 11:22:41 UTC</createdTime>
+<ownerDesignName>Ksiegarnia</ownerDesignName>
+<engineerTo>
+<item key="77349546-AD6C-3775-E2F0-CD9AF033E1A2" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>6BB1A8CA-3BA1-3FB4-6FC9-03B8924C36BA</attributeRef>
+<attributeRef>9F400A9E-8C4B-572A-EF75-8A8859922D1C</attributeRef>
+<attributeRef>B0EE326D-372C-99C5-CC1F-A30EF6786ECB</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

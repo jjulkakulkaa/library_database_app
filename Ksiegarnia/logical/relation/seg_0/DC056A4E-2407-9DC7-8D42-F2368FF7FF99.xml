@@ -1,0 +1,20 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="Relation_12" directorySegmentName="seg_0" id="DC056A4E-2407-9DC7-8D42-F2368FF7FF99">
+<createdBy>baldd</createdBy>
+<createdTime>2023-11-09 11:55:05 UTC</createdTime>
+<ownerDesignName>Ksiegarnia</ownerDesignName>
+<engineerTo>
+<item key="77349546-AD6C-3775-E2F0-CD9AF033E1A2" value="true"/>
+</engineerTo>
+<identifying>false</identifying>
+<nameOnSource>dotyczy</nameOnSource>
+<nameOnTarget>jest objęta</nameOnTarget>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>ED9063E2-E19F-ED2A-5230-AE77F702CC67</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>263DF7F0-A138-93B8-BC49-AE708DD7A36C</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

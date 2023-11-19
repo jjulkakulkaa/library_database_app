@@ -1,0 +1,67 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="6ACAB2A1-C0B4-2EA6-A4A4-7E170EDF6D3A" name="Opinia klienta">
+<createdBy>baldd</createdBy>
+<createdTime>2023-11-09 11:23:00 UTC</createdTime>
+<ownerDesignName>Ksiegarnia</ownerDesignName>
+<engineerTo>
+<item key="77349546-AD6C-3775-E2F0-CD9AF033E1A2" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="Treść" id="8470662D-8D70-D8AB-3B02-98F2258AB96C">
+<createdBy>baldd</createdBy>
+<createdTime>2023-11-09 11:23:16 UTC</createdTime>
+<ownerDesignName>Ksiegarnia</ownerDesignName>
+<engineerTo>
+<item key="77349546-AD6C-3775-E2F0-CD9AF033E1A2" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Id_książki" id="869D3ABB-DB19-14DB-8099-FECB09BEE54A">
+<createdBy>jarom</createdBy>
+<createdTime>2023-11-09 19:56:12 UTC</createdTime>
+<generatorID>3988D801-70CC-868C-BB3F-01CF4B1BDFC5</generatorID>
+<ownerDesignName>Ksiegarnia</ownerDesignName>
+<engineerTo>
+<item key="77349546-AD6C-3775-E2F0-CD9AF033E1A2" value="true"/>
+</engineerTo>
+<referedAttribute>5DDAF217-7BCF-A1C4-5018-599B8BA4B619</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="Pesel" id="5F7D2E96-A084-7986-CB81-0D602A2FB38D">
+<createdBy>jarom</createdBy>
+<createdTime>2023-11-09 19:57:45 UTC</createdTime>
+<generatorID>7AB95502-7595-F53E-9172-02AC0314F871</generatorID>
+<ownerDesignName>Ksiegarnia</ownerDesignName>
+<engineerTo>
+<item key="77349546-AD6C-3775-E2F0-CD9AF033E1A2" value="true"/>
+</engineerTo>
+<referedAttribute>53133E2D-8666-47A8-70DE-4A3B3354E022</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="F02E187C-41D2-0D79-81C0-0B7028BED687" name="Opinia klienta PK">
+<createdBy>jarom</createdBy>
+<createdTime>2023-11-09 19:40:31 UTC</createdTime>
+<ownerDesignName>Ksiegarnia</ownerDesignName>
+<engineerTo>
+<item key="77349546-AD6C-3775-E2F0-CD9AF033E1A2" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>5F7D2E96-A084-7986-CB81-0D602A2FB38D</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

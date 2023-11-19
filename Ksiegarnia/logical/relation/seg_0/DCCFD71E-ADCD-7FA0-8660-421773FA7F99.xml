@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="wypożycza" directorySegmentName="seg_0" id="DCCFD71E-ADCD-7FA0-8660-421773FA7F99">
+<createdBy>jarom</createdBy>
+<createdTime>2023-11-09 19:26:51 UTC</createdTime>
+<ownerDesignName>Ksiegarnia</ownerDesignName>
+<engineerTo>
+<item key="77349546-AD6C-3775-E2F0-CD9AF033E1A2" value="true"/>
+</engineerTo>
+<sourcePk>36A23042-638B-00A1-AA54-3DC236F03047</sourcePk>
+<identifying>true</identifying>
+<nameOnSource>dokonuje</nameOnSource>
+<nameOnTarget>jest dokonywane przez</nameOnTarget>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>A01F9A81-8429-47DF-BAE9-F68C6AED7728</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>97D4D431-604F-6F8A-8A7C-EB36561203A4</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

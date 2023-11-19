@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="Relation_5" directorySegmentName="seg_0" id="E512E02A-3850-E2CD-ADCB-194327FF8A4A">
+<createdBy>baldd</createdBy>
+<createdTime>2023-11-09 11:40:30 UTC</createdTime>
+<ownerDesignName>Ksiegarnia</ownerDesignName>
+<engineerTo>
+<item key="77349546-AD6C-3775-E2F0-CD9AF033E1A2" value="true"/>
+</engineerTo>
+<sourcePk>E8AF4F94-A387-DA82-0771-B7E6C3AFF2F7</sourcePk>
+<identifying>false</identifying>
+<nameOnSource>jest wydawcą</nameOnSource>
+<nameOnTarget>jest wydawnictwa</nameOnTarget>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>07D272D5-9A61-0C37-CE78-C325D010558D</sourceEntity>
+<targetCardinalityString>1</targetCardinalityString>
+<targetEntity>263DF7F0-A138-93B8-BC49-AE708DD7A36C</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>
