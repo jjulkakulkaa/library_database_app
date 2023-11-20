@@ -7,6 +7,22 @@ create table Klienci(
     karta_biblioteczna number(9)
 );
 
+
+/*
+dodatkowa tabela na klientow co maja karte biblio
+w tabeli wypozyczenia zamiast powiazywac z karta_biblioteczna z tabeli Klienci powiazuja sie z karta biblio z tej tabeli
+*/
+
+create table Karty_biblioteczne_klientow(
+    karta_biblioteczna
+        references Klienci(karta_biblioteczna),
+    pesel 
+        references Klienci(pesel),
+    primary key(
+        karta_biblioteczna
+    )
+);
+
 create table Pracownicy(
     pesel number(11) primary key,
     imie varchar2(50) not null,
@@ -47,17 +63,44 @@ create table Ksiazki(
 
 );
 
+create table Autorzy_ksiazek(
+    id_autora 
+        references Autorzy(id_autora),
+    id_ksiazki 
+        references Ksiazki(id_ksiazki),
+    primary key(
+        id_autora,
+        id_ksiazki
+    )
+    
+);
+
 create table Wypozyczenia(
     id_wypozyczenia number(9) primary key,
     data_wypozyczenia date not null,
     data_zwrotu date,
-    karta_wypozyczajacego 
-        references Klienci(karta_biblioteczna) not null,
+    karta_biblioteczna
+        references Karty_biblioteczne_klientow(karta_biblioteczna) not null,
     id_obslugujacego 
         references Pracownicy(pesel) not null,
     id_ksiazki 
         references Ksiazki(id_ksiazki) not null
 );
+
+
+/*
+
+*/
+-- create table Wypozyczenia_klienta(
+--     karta_biblioteczna
+--         references Klienci(karta_biblioteczna),
+--     id_wypozyczenia
+--         references Wypozyczenia(id_wypozyczenia),
+--     primary key(
+--         karta_biblioteczna,
+--         id_wypozyczenia
+--     )
+-- );
 
 create table Zamowienia(
     numer number(9) primary key,
