@@ -15,11 +15,12 @@ w tabeli wypozyczenia zamiast powiazywac z karta_biblioteczna z tabeli Klienci p
 
 create table Karty_biblioteczne_klientow(
     karta_biblioteczna
-        references Klienci(karta_biblioteczna),
+        references Klienci(karta_biblioteczna)
+        not null,
     pesel 
         references Klienci(pesel),
     primary key(
-        karta_biblioteczna
+        karta_biblioteczna,
     )
 );
 
@@ -53,13 +54,17 @@ create table Ksiazki(
     tytul varchar2(50) not null,
     cena number(6,2),
     wartosc_promocji  
-        references Promocje(wartosc),
+        references Promocje(wartosc)
+        not null,
     autor 
-        references Autorzy(id_autora),
+        references Autorzy(id_autora)
+        not null,
     gatunek
-        references Gatunki(nazwa),
+        references Gatunki(nazwa)
+        not null,
     wydawnictwo
-        references Wydawnictwa(nazwa) 
+        references Wydawnictwa(nazwa)
+        not null 
 
 );
 
@@ -76,7 +81,7 @@ create table Autorzy_ksiazek(
 );
 
 create table Wypozyczenia(
-    id_wypozyczenia number(9) primary key,
+    id_wypozyczenia number(9) primary key ,
     data_wypozyczenia date not null,
     data_zwrotu date,
     karta_biblioteczna
@@ -84,7 +89,8 @@ create table Wypozyczenia(
     id_obslugujacego 
         references Pracownicy(pesel) not null,
     id_ksiazki 
-        references Ksiazki(id_ksiazki) not null
+        references Ksiazki(id_ksiazki) not null,
+    
 );
 
 
@@ -118,9 +124,9 @@ create table Zamowienia(
 create table Opinie_klientow(
     tresc varchar2(300) not null,
     id_klienta 
-        references Klienci(pesel) not null,
+        references Klienci(pesel) ,
     id_ksiazki 
-        references Ksiazki(id_ksiazki) not null,
+        references Ksiazki(id_ksiazki),
     primary key(
         tresc, 
         id_klienta, 
@@ -130,7 +136,7 @@ create table Opinie_klientow(
 create table Promocje(
     wartosc number(6,2) not null,
     id_ksiazki
-        references Ksiazki(id_ksiazki) not null ,
+        references Ksiazki(id_ksiazki) ,
     primary key(
         id_ksiazki,
         wartosc
