@@ -142,3 +142,110 @@ create table Promocje(
         wartosc
     )
 );
+
+
+-- Sekwencje
+create sequence id_autora_seq start with 1 increment by 1;
+create sequence id_ksiazki_seq start with 1 increment by 1;
+create sequence id_wypozyczenia_seq start with 1 increment by 1;
+create sequence numer_zamowienia_seq start with 1 increment by 1;
+
+-- Triggery
+create or replace trigger id_autora_trg
+before insert on Autorzy
+for each row
+begin
+    select id_autora_seq.nextval
+    into :new.id_autora
+    from dual;
+end;
+/
+create or replace trigger id_ksiazki_trg
+before insert on Ksiazki
+for each row
+begin
+    select id_ksiazki_seq.nextval
+    into :new.id_ksiazki
+    from dual;
+end;
+/
+create or replace trigger id_wypozyczenia_trg
+before insert on Wypozyczenia
+for each row
+begin
+    select id_wypozyczenia_seq.nextval
+    into :new.id_wypozyczenia
+    from dual;
+end;
+/
+create or replace trigger numer_zamowienia_trg
+before insert on Zamowienia
+for each row
+begin
+    select numer_zamowienia_seq.nextval
+    into :new.numer
+    from dual;
+end;
+/
+
+
+
+-- Pakiet podprogramów
+
+create or replace package biblioteka_pkg is
+    -- Procedura do dodawania klienta
+    procedure dodaj_klienta(
+        v_pesel number,
+        v_imie varchar2,
+        v_nazwisko varchar2,
+        v_data_urodzenia date,
+        v_adres varchar2,
+        v_karta_biblioteczna number
+    );
+
+    -- Funkcja do obliczania sumy wartości zamówień dla danego klienta
+    function suma_wartosci_zamowien(v_pesel number) return number;
+end biblioteka_pkg;
+/
+
+create or replace package body biblioteka_pkg is
+    procedure dodaj_klienta(
+        v_pesel number,
+        v_imie varchar2,
+        v_nazwisko varchar2,
+        v_data_urodzenia date,
+        v_adres varchar2,
+        v_karta_biblioteczna number
+    ) is
+    begin
+        insert into Klienci(pesel, imie, nazwisko, data_urodzenia, adres, karta_biblioteczna)
+        values (v_pesel, v_imie, v_nazwisko, v_data_urodzenia, v_adres, v_karta_biblioteczna);
+    end dodaj_klienta;
+
+    function suma_wartosci_zamowien(v_pesel number) return number is
+        v_suma number := 0;
+    begin
+        select sum(wartosc_zamowienia)
+        into v_suma
+        from Zamowienia
+        where id_klienta = v_pesel;
+
+        return v_suma;
+    end suma_wartosci_zamowien;
+end biblioteka_pkg;
+/
+
+-- Indeksy
+create unique index klienci_i on Klienci(pesel);
+create unique index kart_bibliotecznych_i on Karty_biblioteczne_klientow(karta_biblioteczna);
+create unique index pracownicy_i on Pracownicy(pesel);
+create unique index gatunki_i on Gatunki(nazwa);
+create unique index wydawnictwa_i on Wydawnictwa(nazwa);
+create unique index autorzy_i on Autorzy(id_autora);
+create unique index ksiazki_i on Ksiazki(id_ksiazki);
+create unique index wypozyczenia_i on Wypozyczenia(id_wypozyczenia);
+create unique index zamowienia_i on Zamowienia(numer);
+create index opinie_i on Opinie_klientow(id_klienta, id_ksiazki);
+create index promocje_i on Promocje(id_ksiazki, wartosc);
+
+
