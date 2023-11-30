@@ -239,6 +239,29 @@ create or replace package biblioteka_pkg is
         v_wartosc_promocji number
     ) 
 
+    PROCEDURE dodaj_autora(
+        v_imie varchar2,
+        v_nazwisko varchar2,
+        v_narodowosc varchar2
+    )
+
+    PROCEDURE dodaj_autora_ksiazki(
+        v_imie_autora varchar2,
+        v_nazwisko_autora varchar2,
+        v_tytul_ksiazki varchar2
+    ) 
+
+
+    PROCEDURE dodaj_gatunek(
+        v_nazwa varchar2
+    )
+
+    CREATE OR REPLACE PROCEDURE dodaj_wydawnictwo(
+        v_nazwa varchar2,
+        v_rok_zalozenia date,
+        v_adres varchar2
+    )
+
 
 end biblioteka_pkg;
 /
@@ -410,6 +433,78 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE('Błąd podczas dodawania promocji: ' || SQLERRM);
 END dodaj_promocje;
 
+PROCEDURE dodaj_autora(
+    v_imie varchar2,
+    v_nazwisko varchar2,
+    v_narodowosc varchar2
+) IS
+    v_id_autora number;
+BEGIN
+    INSERT INTO Autorzy(id_autora, imie, nazwisko, narodowosc)
+    VALUES (id_autora_seq.NEXTVAL, v_imie, v_nazwisko, v_narodowosc)
+    RETURNING id_autora INTO v_id_autora;
+
+    DBMS_OUTPUT.PUT_LINE('Autor dodany pomyślnie.');
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Błąd podczas dodawania autora: ' || SQLERRM);
+END dodaj_autora;
+
+PROCEDURE dodaj_autora_ksiazki(
+    v_imie_autora varchar2,
+    v_nazwisko_autora varchar2,
+    v_tytul_ksiazki varchar2
+) IS
+    v_id_autora number;
+    v_id_ksiazki number;
+BEGIN
+   
+    SELECT id_autora INTO v_id_autora
+    FROM Autorzy
+    WHERE imie = v_imie_autora AND nazwisko = v_nazwisko_autora;
+
+    SELECT id_ksiazki INTO v_id_ksiazki
+    FROM Ksiazki
+    WHERE tytul = v_tytul_ksiazki;
+
+    INSERT INTO Autorzy_ksiazek(id_autora, id_ksiazki)
+    VALUES (v_id_autora, v_id_ksiazki);
+    
+    DBMS_OUTPUT.PUT_LINE('Autor-Książka relacja dodana pomyślnie.');
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Nie znaleziono autora o podanym imieniu i nazwisku lub książki o podanym tytule.');
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Błąd podczas dodawania relacji autor-książka: ' || SQLERRM);
+END dodaj_autora_ksiazki;
+
+PROCEDURE dodaj_gatunek(
+    v_nazwa varchar2
+) IS
+BEGIN
+    INSERT INTO Gatunki(nazwa)
+    VALUES (v_nazwa);
+    
+    DBMS_OUTPUT.PUT_LINE('Gatunek dodany pomyślnie.');
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Błąd podczas dodawania gatunku: ' || SQLERRM);
+END dodaj_gatunek;
+
+PROCEDURE dodaj_wydawnictwo(
+    v_nazwa varchar2,
+    v_rok_zalozenia date,
+    v_adres varchar2
+) IS
+BEGIN
+    INSERT INTO Wydawnictwa(nazwa, rok_zalozenia, adres)
+    VALUES (v_nazwa, v_rok_zalozenia, v_adres);
+    
+    DBMS_OUTPUT.PUT_LINE('Wydawnictwo dodane pomyślnie.');
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Błąd podczas dodawania wydawnictwa: ' || SQLERRM);
+END dodaj_wydawnictwo;
 
 
 end biblioteka_pkg;
