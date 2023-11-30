@@ -300,6 +300,7 @@ create or replace package body biblioteka_pkg is
     v_id_obslugujacego number
 ) is
     v_numer_zamowienia number;
+    v_wartosc_zamowienia NUMBER;
 begin
     select numer_zamowienia_seq.nextval into v_numer_zamowienia from dual;
 
@@ -309,9 +310,14 @@ begin
         values (v_numer_zamowienia, (select id_ksiazki from Ksiazki where tytul = v_lista_ksiazek(i)));
     end loop;
 
-    -- Insert a record into Zamowienia
-    insert into Zamowienia(numer_zamowienia, data_zamowienia, status, id_klienta, id_obslugujacego)
-    values (v_numer_zamowienia, sysdate, 'w trakcie realizacji', v_id_klienta, v_id_obslugujacego);
+     -- Obliczanie wartości zamówienia
+    v_wartosc_zamowienia := wartosc_zamowienia(v_numer_zamowienia);
+
+    -- Wstawianie rekordu do Zamowienia
+    INSERT INTO Zamowienia(numer_zamowienia, data_zamowienia, status, id_klienta, id_obslugujacego, wartosc_zamowienia)
+    VALUES (v_numer_zamowienia, SYSDATE, 'w trakcie realizacji', v_id_klienta, v_id_obslugujacego, v_wartosc_zamowienia);
+
+   
 end dodaj_zamowienie;
 
 PROCEDURE dodaj_wypozyczenie(
@@ -323,7 +329,7 @@ PROCEDURE dodaj_wypozyczenie(
     v_id_ksiazki NUMBER;
     v_data_zwrotu DATE;
 BEGIN
-    -- Get the book ID based on the provided title
+    
     SELECT id_ksiazki, cena INTO v_id_ksiazki
     FROM Ksiazki
     WHERE tytul = v_tytul_ksiazki;
