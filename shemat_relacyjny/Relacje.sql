@@ -49,9 +49,6 @@ create table Ksiazki(
     id_ksiazki number(9) primary key,
     tytul varchar2(50) not null,
     cena number(6,2),
-    wartosc_promocji  
-        references Promocje(wartosc)
-        not null,
     autor 
         references Autorzy(id_autora)
         not null,
@@ -204,11 +201,59 @@ create or replace package biblioteka_pkg is
         v_nazwisko varchar2,
         v_data_urodzenia date,
         v_adres varchar2,
-        v_karta_biblioteczna number
     );
 
     -- Funkcja do obliczania sumy wartości zamówień dla danego klienta
     function wartosc_zamowienia(v_pesel number) return number;
+
+    -- Procedura do dodawania pracownika
+    procedure dodaj_pracownika(
+        v_pesel number,
+        v_imie varchar2,
+        v_nazwisko varchar2,
+        v_adres varchar2,
+        v_stanowisko varchar2
+    );
+
+    -- Procedura do dodawania książki
+    procedure dodaj_ksiazke(
+        v_tytul varchar2,
+        v_cena number,
+        v_wartosc_promocji number,
+        v_id_autora number,
+        v_nazwa_gatunku varchar2,
+        v_nazwa_wydawnictwa varchar2
+    );
+
+
+    procedure dodaj_zamowionie(
+        v_lista_ksiazek SYS.ODCIVARCHAR2LIST,
+        v_id_klienta number,
+        v_id_obslugujacego number
+    )
+
+    PROCEDURE dodaj_wypozyczenie(
+        v_tytul_ksiazki VARCHAR2,
+        v_karta_biblioteczna NUMBER,
+        v_id_obslugujacego NUMBER
+    )
+
+    PROCEDURE dodaj_opinie(
+        v_tresc varchar2,
+        v_pesel number,
+        v_tytul_ksiazki varchar2
+    )
+
+    PROCEDURE dodaj_karte_biblioteczna(
+    v_pesel number
+    )
+
+    PROCEDURE dodaj_promocje(
+        v_tytul_ksiazki varchar2,
+        v_wartosc_promocji number
+    ) 
+
+
 end biblioteka_pkg;
 /
 
@@ -222,8 +267,8 @@ create or replace package body biblioteka_pkg is
         v_karta_biblioteczna number
     ) is
     begin
-        insert into Klienci(pesel, imie, nazwisko, data_urodzenia, adres, karta_biblioteczna)
-        values (v_pesel, v_imie, v_nazwisko, v_data_urodzenia, v_adres, v_karta_biblioteczna);
+        insert into Klienci(pesel, imie, nazwisko, data_urodzenia, v_adres)
+        values (v_pesel, v_imie, v_nazwisko, v_data_urodzenia, v_adres);
     end dodaj_klienta;
 
     function wartosc_zamowienia(v_nr_zamowienia number) return number is
@@ -236,6 +281,139 @@ create or replace package body biblioteka_pkg is
 
         return v_suma;
     end wartosc_zamowienia;
+
+    procedure dodaj_pracownika(
+        v_pesel number,
+        v_imie varchar2,
+        v_nazwisko varchar2,
+        v_adres varchar2,
+        v_stanowisko varchar2
+    ) is
+    begin
+        insert into Pracownicy(pesel, imie, nazwisko, adres, stanowisko)
+        values (v_pesel, v_imie, v_nazwisko, v_adres, v_stanowisko);
+    end dodaj_pracownika;
+
+    procedure dodaj_ksiazke(
+        v_tytul varchar2,
+        v_cena number,
+        v_wartosc_promocji number,
+        v_id_autora number,
+        v_nazwa_gatunku varchar2,
+        v_nazwa_wydawnictwa varchar2
+    ) is
+    begin
+        insert into Ksiazki(tytul, cena, wartosc_promocji, autor, gatunek, wydawnictwo)
+        values (v_tytul, v_cena, v_wartosc_promocji, v_id_autora, v_nazwa_gatunku, v_nazwa_wydawnictwa);
+    
+    end dodaj_ksiazke;
+
+    procedure dodaj_zamowienie(
+    v_lista_ksiazek SYS.ODCIVARCHAR2LIST,
+    v_id_klienta number,
+    v_id_obslugujacego number
+) is
+    v_numer_zamowienia number;
+begin
+    select numer_zamowienia_seq.nextval into v_numer_zamowienia from dual;
+
+    -- Wstawianie kazdej zamowionej ksiazki do Zamowione_ksiazki
+    for i in 1..v_lista_ksiazek.count loop
+        insert into Zamowione_ksiazki(numer_zamowienia, id_ksiazki)
+        values (v_numer_zamowienia, (select id_ksiazki from Ksiazki where tytul = v_lista_ksiazek(i)));
+    end loop;
+
+    -- Insert a record into Zamowienia
+    insert into Zamowienia(numer_zamowienia, data_zamowienia, status, id_klienta, id_obslugujacego)
+    values (v_numer_zamowienia, sysdate, 'w trakcie realizacji', v_id_klienta, v_id_obslugujacego);
+end dodaj_zamowienie;
+
+PROCEDURE dodaj_wypozyczenie(
+    v_tytul_ksiazki VARCHAR2,
+    v_karta_biblioteczna NUMBER,
+    v_id_obslugujacego NUMBER
+) IS
+    v_id_ksiazki NUMBER;
+    v_data_zwrotu DATE;
+BEGIN
+    -- Get the book ID based on the provided title
+    SELECT id_ksiazki INTO v_id_ksiazki
+    FROM Ksiazki
+    WHERE tytul = v_tytul_ksiazki;
+
+    -- Czy książka jest dostępna
+    IF EXISTS (
+        SELECT 1
+        FROM Wypozyczenia
+        WHERE id_ksiazki = v_id_ksiazki
+    ) THEN
+        -- Book is already rented
+        DBMS_OUTPUT.PUT_LINE('Ksiazka jest juz wypozyczona.');
+    ELSE
+        -- zwrot za 14 dni
+        v_data_zwrotu := SYSDATE + 14;
+        
+        INSERT INTO Wypozyczenia(id_wypozyczenia, data_wypozyczenia, data_zwrotu, karta_biblioteczna, id_obslugujacego, id_ksiazki)
+        VALUES (id_wypozyczenia_seq.NEXTVAL, SYSDATE, v_data_zwrotu, v_karta_biblioteczna, v_id_obslugujacego, v_id_ksiazki);
+        
+    END IF;
+END dodaj_wypozyczenie;
+
+PROCEDURE dodaj_opinie(
+    v_tresc varchar2,
+    v_pesel number,
+    v_tytul_ksiazki varchar2
+) IS
+BEGIN
+    INSERT INTO Opinie_klientow(tresc, id_klienta, id_ksiazki)
+    VALUES (v_tresc, v_pesel, (SELECT id_ksiazki FROM Ksiazki WHERE tytul = v_tytul_ksiazki));
+    
+    DBMS_OUTPUT.PUT_LINE('Opinia dodana pomyślnie.');
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Błąd podczas dodawania opinii: ' || SQLERRM);
+END dodaj_opinie;
+
+-- Procedura do dodawania karty bibliotecznej klienta
+PROCEDURE dodaj_karte_biblioteczna(
+    v_pesel number
+) IS
+BEGIN
+    INSERT INTO Karty_biblioteczne(karta_biblioteczna, pesel)
+    VALUES (numer_karty_bibliotecznej_seq.NEXTVAL, v_pesel);
+    
+    DBMS_OUTPUT.PUT_LINE('Karta biblioteczna dodana pomyślnie.');
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Błąd podczas dodawania karty bibliotecznej: ' || SQLERRM);
+END dodaj_karte_biblioteczna;
+
+-- Procedura do dodawania promocji
+PROCEDURE dodaj_promocje(
+    v_tytul_ksiazki varchar2,
+    v_wartosc_promocji number
+) IS
+    v_id_ksiazki number;
+BEGIN
+    
+    SELECT id_ksiazki INTO v_id_ksiazki
+    FROM Ksiazki
+    WHERE tytul = v_tytul_ksiazki AND cena IS NOT NULL;
+
+
+    INSERT INTO Promocje(id_ksiazki, wartosc)
+    VALUES (v_id_ksiazki, v_wartosc_promocji);
+
+    DBMS_OUTPUT.PUT_LINE('Promocja dodana pomyślnie.');
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('Książka o podanym tytule nie istnieje lub ma cenę null.');
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Błąd podczas dodawania promocji: ' || SQLERRM);
+END dodaj_promocje;
+
+
+
 end biblioteka_pkg;
 /
 
