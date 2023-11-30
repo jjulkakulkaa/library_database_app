@@ -7,10 +7,7 @@ create table Klienci(
 );
 
 
-/*
-dodatkowa tabela na klientow co maja karte biblio
-w tabeli wypozyczenia zamiast powiazywac z karta_biblioteczna z tabeli Klienci powiazuja sie z karta biblio z tej tabeli
-*/
+
 
 create table Karty_biblioteczne(
     karta_biblioteczna number(9)
@@ -87,19 +84,6 @@ create table Wypozyczenia(
 );
 
 
-/*
-
-*/
--- create table Wypozyczenia_klienta(
---     karta_biblioteczna
---         references Klienci(karta_biblioteczna),
---     id_wypozyczenia
---         references Wypozyczenia(id_wypozyczenia),
---     primary key(
---         karta_biblioteczna,
---         id_wypozyczenia
---     )
--- );
 
 create table Zamowienia(
     numer_zamowienia number(9) primary key,
@@ -110,7 +94,8 @@ create table Zamowienia(
     id_obslugujacego 
         references Pracownicy(pesel) not null
 );
-/*blokowanie zamowienia ksiazki bez ceny???*/
+
+
 create table Zamowione_ksiazki(
     numer_zamowienia 
         references Zamowienia(numer_zamowienia) not null,
@@ -235,7 +220,8 @@ create or replace package biblioteka_pkg is
     PROCEDURE dodaj_wypozyczenie(
         v_tytul_ksiazki VARCHAR2,
         v_karta_biblioteczna NUMBER,
-        v_id_obslugujacego NUMBER
+        v_id_obslugujacego NUMBER,
+        v_cena NUMBER;
     )
 
     PROCEDURE dodaj_opinie(
@@ -331,32 +317,38 @@ end dodaj_zamowienie;
 PROCEDURE dodaj_wypozyczenie(
     v_tytul_ksiazki VARCHAR2,
     v_karta_biblioteczna NUMBER,
-    v_id_obslugujacego NUMBER
+    v_id_obslugujacego NUMBER,
+    v_cena NUMBER;
 ) IS
     v_id_ksiazki NUMBER;
     v_data_zwrotu DATE;
 BEGIN
     -- Get the book ID based on the provided title
-    SELECT id_ksiazki INTO v_id_ksiazki
+    SELECT id_ksiazki, cena INTO v_id_ksiazki
     FROM Ksiazki
     WHERE tytul = v_tytul_ksiazki;
 
-    -- Czy książka jest dostępna
-    IF EXISTS (
-        SELECT 1
-        FROM Wypozyczenia
-        WHERE id_ksiazki = v_id_ksiazki
-    ) THEN
-        -- Book is already rented
-        DBMS_OUTPUT.PUT_LINE('Ksiazka jest juz wypozyczona.');
+ IF v_cena IS NOT NULL THEN
+        
+        DBMS_OUTPUT.PUT_LINE('Ksiazka jest na sprzedaz, nie może być wypożyczona.');
     ELSE
-        -- zwrot za 14 dni
-        v_data_zwrotu := SYSDATE + 14;
-        
-        INSERT INTO Wypozyczenia(id_wypozyczenia, data_wypozyczenia, data_zwrotu, karta_biblioteczna, id_obslugujacego, id_ksiazki)
-        VALUES (id_wypozyczenia_seq.NEXTVAL, SYSDATE, v_data_zwrotu, v_karta_biblioteczna, v_id_obslugujacego, v_id_ksiazki);
-        
+        IF EXISTS (
+            SELECT 1
+            FROM Wypozyczenia
+            WHERE id_ksiazki = v_id_ksiazki
+        ) THEN
+            DBMS_OUTPUT.PUT_LINE('Ksiazka jest już wypożyczona.');
+        ELSE
+            -- zwrot za 14 dni
+            v_data_zwrotu := SYSDATE + 14;
+
+            INSERT INTO Wypozyczenia(id_wypozyczenia, data_wypozyczenia, data_zwrotu, karta_biblioteczna, id_obslugujacego, id_ksiazki)
+            VALUES (id_wypozyczenia_seq.NEXTVAL, SYSDATE, v_data_zwrotu, v_karta_biblioteczna, v_id_obslugujacego, v_id_ksiazki);
+            
+            DBMS_OUTPUT.PUT_LINE('Ksiazka została wypożyczona.');
+        END IF;
     END IF;
+    
 END dodaj_wypozyczenie;
 
 PROCEDURE dodaj_opinie(
