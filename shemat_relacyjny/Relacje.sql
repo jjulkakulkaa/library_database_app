@@ -236,16 +236,14 @@ end biblioteka_pkg;
 /
 
 -- Indeksy
-create unique index klienci_i on Klienci(pesel);
-create unique index kart_bibliotecznych_i on Karty_biblioteczne_klientow(karta_biblioteczna);
-create unique index pracownicy_i on Pracownicy(pesel);
-create unique index gatunki_i on Gatunki(nazwa);
-create unique index wydawnictwa_i on Wydawnictwa(nazwa);
-create unique index autorzy_i on Autorzy(id_autora);
-create unique index ksiazki_i on Ksiazki(id_ksiazki);
-create unique index wypozyczenia_i on Wypozyczenia(id_wypozyczenia);
-create unique index zamowienia_i on Zamowienia(numer);
-create index opinie_i on Opinie_klientow(id_klienta, id_ksiazki);
-create index promocje_i on Promocje(id_ksiazki, wartosc);
+create index karta_biblioteczna_idx on Klienci(karta_biblioteczna);
+create index stanowisko_idx on Pracownicy(stanowisko);
+create index nazwisko_autora_idx on Autorzy(nazwisko);
+create unique index tytul_ksiazki_idx on Ksiazki(tytul);
+create index data_wybozyceznia_idx on Wypozyczenia(data_wypozyczenia);
+create index data_zwrotu_idx on Wypozyczenia(data_zwrotu);
+create index data_zamowienia_idx on Zamowienia(data_zamowienia);
+create index status_zamowienia_idx on Zamowienia(status);
+
 
 
